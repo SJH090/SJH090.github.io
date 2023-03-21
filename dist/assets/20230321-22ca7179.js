@@ -1,0 +1,1 @@
+import{_ as o,o as t,c,p as a,b as n,a as _}from"./index-99ace196.js";const d={},s=e=>(a("data-v-e38b9288"),e=e(),n(),e),p={class:"w20230321"},r=s(()=>_("h1",null,"第一篇文章大标题",-1)),l=s(()=>_("p",null,"鼓捣了两天，一个结构简单,功能稀少的博客终于搭好了。",-1)),i=[r,l];function h(e,u){return t(),c("div",p,i)}const v=o(d,[["render",h],["__scopeId","data-v-e38b9288"]]);export{v as default};
