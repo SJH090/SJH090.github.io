@@ -6,21 +6,21 @@ import { ref } from 'vue'
 const mode = () => {
 	if (window.matchMedia('(prefers-color-scheme: light)').matches) {
 		return '<i class = "czs-sun-l"></i>'
-	}else if(window.matchMedia('(prefers-color-scheme: dark)').matches){
+	} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
 		return '<i class = "czs-moon-l"></i>'
 	}
 }
 
 //监听模式变化
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-		if (event.matches) {
-			console.log("当前暗色")
-		} else {
-			console.log("当前亮色")
-		}
-	})
+	if (event.matches) {
+		console.log("当前暗色")
+	} else {
+		console.log("当前亮色")
+	}
+})
 
-function change(){
+function change() {
 	alert("功能还没做")
 }
 
@@ -54,75 +54,109 @@ function change(){
 		</div>
 	</div>
 	<!--/主导航-->
+	<!-- 回到顶部 -->
+	<div id="top" @click="change">
+		<i class="czs-rocket-l"></i>
+	</div>
 </template>
 
 <style scoped>
 .sina-header {
-    width: 100%;
-    height: 48px;
-    position: fixed;
-    backdrop-filter: blur(10px);
-	background-color:rgba(255,255,255,0.5);
+	width: 100%;
+	height: 48px;
+	position: fixed;
+	backdrop-filter: blur(10px);
+	background-color: rgba(255, 255, 255, 0.5);
 	z-index: 100;
 }
+
 .sina-header-inner {
-    max-width: 1240px;
-    position: relative;
-    margin: 0 auto;
+	max-width: 1240px;
+	position: relative;
+	margin: 0 auto;
 }
-.sina-nav{
-    position: relative;
-    margin: 0;
+
+.sina-nav {
+	position: relative;
+	margin: 0;
 }
-.sina-nav .nav-list{
-    margin: 0;
+
+.sina-nav .nav-list {
+	margin: 0;
 }
+
 .sina-nav .nav-list li {
-    float: left;
-    list-style: none;
+	float: left;
+	list-style: none;
 }
+
 .sina-nav .nav-list li a {
-    /* background-color: #e96a0d; */
-    margin: 0;
-    text-decoration: none;
-    display: block;
-    line-height: 48px;
-    padding: 0 15px;
-    color: #333;
+	/* background-color: #e96a0d; */
+	margin: 0;
+	text-decoration: none;
+	display: block;
+	line-height: 48px;
+	padding: 0 15px;
+	color: #333;
 }
+
 .sina-nav .nav-list li a:hover {
-    color: #e96a0d
+	color: #e96a0d
 }
+
 /* 靠右 */
 .sina-client {
-    position: relative;
-    float: right;
+	position: relative;
+	float: right;
 }
+
 /* 垂直居中 */
 .sina-client-tl a {
-    text-decoration: none;
-    line-height: 45px;
-    color: #333;
+	text-decoration: none;
+	line-height: 45px;
+	color: #333;
 	margin: 0 15px;
 }
 
 @media (prefers-color-scheme: dark) {
 	.sina-header {
-		background-color:rgba(55,71,79,0.5);
+		background-color: rgba(55, 71, 79, 0.5);
 	}
+
 	.sina-nav .nav-list li a {
 		color: #fff;
 	}
+
 	.sina-client-tl a {
 		color: #fff;
 	}
 }
 
 @media screen and (max-width:800px) {
+
 	/* 生效范围，宽度最大600px，也就是600px以下 */
 	/* 第五个元素之后的全部隐藏 */
-	.sina-header .sina-header-inner .sina-nav .nav-list li:nth-child(n+6){
+	.sina-header .sina-header-inner .sina-nav .nav-list li:nth-child(n+6) {
 		display: none;
 	}
+}
+
+#top {
+	position: fixed;
+	right: 10%;
+	bottom: 0%;
+	font-size: 100px;
+	cursor: pointer;
+	animation: index 1s infinite alternate;
+}
+
+@keyframes index {
+    from {
+        transform: translateY(0%);
+    }
+
+    to {
+        transform: translateY(5%);
+    }
 }
 </style>

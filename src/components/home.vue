@@ -1,10 +1,9 @@
 <script setup lang="ts">
-function tp(){
-    window.location.href="/20230321"
+
+function enter(date:number){
+    window.location.href="/" + date
 }
-function tp1(){
-    window.location.href="/20230322"
-}
+
 </script>
 
 <template>
@@ -13,14 +12,14 @@ function tp1(){
     </div>
     <div class="home1">
         <ul class="home-list">
-            <li @click="tp">
+            <li @click="enter(20230321)">
                 <img src="../assets/16.png">
                 <div class="jianjie">
                     <h2>我的第一篇博客</h2>
                     <span>这是简介，可以有很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多的字。</span>
                 </div>
             </li>
-            <li @click="tp1">
+            <li @click="enter(20230322)">
                 <img src="../assets/17.png">
                 <div class="jianjie">
                     <h2>用户提权</h2>
