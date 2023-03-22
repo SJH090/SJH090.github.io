@@ -49,7 +49,7 @@ jobs:
       - name: GitHub Pages action
         uses: peaceiris/actions-gh-pages@v3.9.2
         with:
-          personal_token: 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
+          personal_token: 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
           publish_dir: ./dist
       - name: Deploy to GitHub Pages
         id: deployment
