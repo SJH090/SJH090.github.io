@@ -2,6 +2,9 @@
 function tp(){
     window.location.href="/20230321"
 }
+function tp1(){
+    window.location.href="/20230322"
+}
 </script>
 
 <template>
@@ -17,7 +20,13 @@ function tp(){
                     <span>这是简介，可以有很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多很多的字。</span>
                 </div>
             </li>
-            <li>文章1</li>
+            <li @click="tp1">
+                <img src="../assets/17.png">
+                <div class="jianjie">
+                    <h2>用户提权</h2>
+                    <span>今天的内容 普通用户提权，awk，sed。</span>
+                </div>
+            </li>
             <li>文章1</li>
             <li>文章1</li>
             <li>文章1</li>
@@ -35,7 +44,6 @@ function tp(){
 .welcome i {
     margin-top: 800px;
     font-size: 100px;
-    color: #448AFF;
     animation: index 1s infinite alternate;
 }
 
@@ -67,7 +75,7 @@ function tp(){
     border-radius: 20px;
     /* text-align: center; */
     /* overflow: hidden; */
-    background-color: rgba(238, 238, 238, 0.9);
+    background-color: rgba(238, 238, 238, 0.8);
     transition: all 0.1s;
 }
 
@@ -87,4 +95,20 @@ function tp(){
     display: inline-block;
     margin: 10px;
 }
+@media (prefers-color-scheme: dark) {
+    .welcome i {
+        color: #fff;
+    }
+    .home1 .home-list li {
+        background-color:rgba(66,66,66,0.8);
+    }
+    .home1 .home-list li:hover {
+    box-shadow: 0 0 10px #fff;
+    cursor: pointer;
+}
+    .home1 .home-list li .jianjie {
+        color: #fff;
+    }
+}
+
 </style>

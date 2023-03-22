@@ -32,15 +32,15 @@ function change(){
 		<div class="sina-header-inner">
 			<div class="sina-nav">
 				<ul class="nav-list">
-					<li><a href="http://www.sina.com.cn/">新浪首页</a></li>
-					<li><a href="http://news.sina.com.cn/">新闻</a></li>
-					<li><a href="http://sports.sina.com.cn/">体育</a></li>
-					<li><a href="http://finance.sina.com.cn/">财经</a></li>
-					<li><a href="http://ent.sina.com.cn/">娱乐</a></li>
-					<li><a href="http://tech.sina.com.cn/">科技</a></li>
-					<li><a href="http://blog.sina.com.cn/">博客</a></li>
-					<li><a href="http://photo.sina.com.cn/">图片</a></li>
-					<li><a href="http://zhuanlan.sina.com.cn/">专栏</a></li>
+					<li><a href="/">新浪首页</a></li>
+					<li><a href="" @click="change">新闻</a></li>
+					<li><a href="" @click="change">体育</a></li>
+					<li><a href="" @click="change">财经</a></li>
+					<li><a href="" @click="change">娱乐</a></li>
+					<li><a href="" @click="change">科技</a></li>
+					<li><a href="" @click="change">博客</a></li>
+					<li><a href="" @click="change">图片</a></li>
+					<li><a href="" @click="change">专栏</a></li>
 					<li><a href="#">更多</a></li>
 				</ul>
 			</div>
@@ -66,7 +66,7 @@ function change(){
 	z-index: 100;
 }
 .sina-header-inner {
-    width: 1240px;
+    max-width: 1240px;
     position: relative;
     margin: 0 auto;
 }
@@ -104,5 +104,25 @@ function change(){
     line-height: 45px;
     color: #333;
 	margin: 0 15px;
+}
+
+@media (prefers-color-scheme: dark) {
+	.sina-header {
+		background-color:rgba(55,71,79,0.5);
+	}
+	.sina-nav .nav-list li a {
+		color: #fff;
+	}
+	.sina-client-tl a {
+		color: #fff;
+	}
+}
+
+@media screen and (max-width:800px) {
+	/* 生效范围，宽度最大600px，也就是600px以下 */
+	/* 第五个元素之后的全部隐藏 */
+	.sina-header .sina-header-inner .sina-nav .nav-list li:nth-child(n+6){
+		display: none;
+	}
 }
 </style>

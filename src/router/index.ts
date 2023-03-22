@@ -9,6 +9,10 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/20230321',
         component: () => import('../components/20230321.vue')
+    },
+    {
+        path: '/20230322',
+        component: () => import('../components/20230322.vue')
     }
 ];
 // 2.返回一个 router 实列，为函数，配置 history 模式

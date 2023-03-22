@@ -9,7 +9,7 @@
 <style scoped>
 .bg {
     height: 100vh;
-    width: 100vw;
+    width: 100%;
     position: fixed;
     background: url(../assets/15.jpg);
     z-index: -1;
