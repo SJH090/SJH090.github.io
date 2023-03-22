@@ -46,11 +46,6 @@ jobs:
         with:
           # Upload dist repository
           path: './dist'
-      - name: GitHub Pages action
-        uses: peaceiris/actions-gh-pages@v3.9.2
-        with:
-          personal_token: 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
-          publish_dir: ./dist
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
