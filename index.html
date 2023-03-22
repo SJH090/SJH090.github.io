@@ -1,33 +1,31 @@
 <!DOCTYPE html>
 <html lang="zh">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + Vue + TS</title>
-  </head>
-  <style>
-    /* 隐藏滚动条 */
-    ::-webkit-scrollbar{
-      display: none;
-    }
-  </style>
-  <body style="margin: 0;height: 10000px;">
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-    <script>
-  (function(){
-    let redirect = sessionStorage.redirect;
-    delete sessionStorage.redirect;
-    if (redirect && redirect !== location.href) {
-      history.replaceState(null, null, redirect);
-    }
-  })();
-</script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite + Vue + TS</title>
+</head>
+<style>
+  /* 隐藏滚动条 */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+</style>
+
+<body style="margin: 0;height: 10000px;">
+  <div id="app"></div>
+  <script type="module" src="/src/main.ts"></script>
+  <script>
+    (function () {
+      let redirect = sessionStorage.redirect;
+      delete sessionStorage.redirect;
+      if (redirect && redirect !== location.href) {
+        history.replaceState(null, null, redirect);
+      }
+    })();
+  </script>
+</body>
+
 </html>
-
-
-<!-- 
-背景固定，三角往上带出文章
--->
