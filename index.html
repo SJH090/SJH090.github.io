@@ -15,6 +15,20 @@
   <body style="margin: 0;height: 10000px;">
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
+    <script>
+  (function(){
+    let redirect = sessionStorage.redirect;
+    delete sessionStorage.redirect;
+    if (redirect && redirect !== location.href) {
+      history.replaceState(null, null, redirect);
+    }
+  })();
+</script>
+
+作者：TBIA
+链接：https://www.zhihu.com/question/64173754/answer/2464674539
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
   </body>
 </html>
 
