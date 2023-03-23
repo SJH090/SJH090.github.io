@@ -14,5 +14,6 @@ import Main from './components/Main.vue'
 .all {
   width: 100%;
   background: url(./assets/15.jpg) no-repeat fixed;
+  background-size: cover;
 }
 </style>
