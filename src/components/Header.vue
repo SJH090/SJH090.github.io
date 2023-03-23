@@ -24,6 +24,37 @@ function change() {
 	alert("功能还没做")
 }
 
+//小火煎自动显示和隐藏
+const topIf = ref(false)
+document.addEventListener("scroll", () => {
+	if(document.documentElement.scrollTop > 0){
+		topIf.value = true
+	}
+	else{
+		topIf.value = false
+	}
+})
+
+//用最常用的scrollTop属性实现，返回顶部
+var timer = 1;
+function scrollTop(){
+    // 取消一个通过调用requestAnimationFrame()方法添加到计划中的动画帧请求.
+    cancelAnimationFrame(timer);
+    /* requestAnimationFrame 会把每一帧中的所有DOM操作集中起来，
+    在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率
+    一般来说，这个频率为每秒60帧。 */
+    timer = requestAnimationFrame(function sTop(){
+        var top = document.body.scrollTop || document.documentElement.scrollTop;
+        if(top > 0){
+      //使用定时器，将scrollTop的值每次减少20（自行设置），直到减少到0，则滚动完毕
+            document.body.scrollTop = document.documentElement.scrollTop = top - 20;
+            timer = requestAnimationFrame(sTop);//递归调用
+        }else{
+            cancelAnimationFrame(timer);
+        } 
+    });
+}
+
 </script>
 
 <template>
@@ -55,7 +86,7 @@ function change() {
 	</div>
 	<!--/主导航-->
 	<!-- 回到顶部 -->
-	<div id="top" @click="change">
+	<div id="top" @click="scrollTop" v-if="topIf">
 		<i class="czs-rocket-l"></i>
 	</div>
 </template>
@@ -130,10 +161,12 @@ function change() {
 	.sina-client-tl a {
 		color: #fff;
 	}
+	#top{
+		color: #fff;
+	}
 }
 
 @media screen and (max-width:800px) {
-
 	/* 生效范围，宽度最大600px，也就是600px以下 */
 	/* 第五个元素之后的全部隐藏 */
 	.sina-header .sina-header-inner .sina-nav .nav-list li:nth-child(n+6) {

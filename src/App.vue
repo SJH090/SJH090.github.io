@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import Header from './components/Header.vue'
 import Main from './components/Main.vue'
-import bg from './components/bg.vue'
 </script>
 
 <template>
-  <bg />
-  <Header />
-  <Main />
+  <div class="all">
+    <Header />
+    <Main />
+  </div>
 </template>
 
 <style scoped>
-
+.all {
+  width: 100%;
+  background: url(./assets/15.jpg) no-repeat fixed;
+}
 </style>
