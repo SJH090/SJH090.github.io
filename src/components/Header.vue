@@ -63,7 +63,7 @@ function scrollTop() {
 		<div class="sina-header-inner">
 			<ul class="nav-list">
 				<li><a href="/">新浪首页</a></li>
-				<li class="active"><a href="" @click="change">控制台</a></li>
+				<li class="active"><a href="/console">控制台</a></li>
 				<li><a href="" @click="change">体育</a></li>
 				<li><a href="" @click="change">财经</a></li>
 				<li><a href="" @click="change">娱乐</a></li>

@@ -15,8 +15,8 @@ export default createRouter({
             // }
         },
         {
-            path: '/login',
-            component: () => import('../components/404.vue')
+            path: '/console',
+            component: () => import('../components/Console.vue')
         },
         {
             path: '/:path',
