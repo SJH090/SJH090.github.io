@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import Header from './components/Header.vue'
-import Main from './components/Main.vue'
+import Header from './components/Header.vue';
+import Main from './components/Main.vue';
+import Notice from './components/Notice.vue';
+import Footer from './components/Footer.vue';
 </script>
 
 <template>
-  <div class="all">
-    <Header />
-    <Main />
-  </div>
+  <Header />
+  <Main />
+  <!-- <Notice /> -->
+  <Footer />
 </template>
 
 <style scoped>

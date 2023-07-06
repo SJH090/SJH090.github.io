@@ -59,11 +59,11 @@ function scrollTop() {
 
 <template>
 	<!--主导航-->
-	<div class="sina-header">
+	<header>
 		<div class="sina-header-inner">
 			<ul class="nav-list">
 				<li><a href="/">新浪首页</a></li>
-				<li><a href="" @click="change">新闻</a></li>
+				<li class="active"><a href="" @click="change">控制台</a></li>
 				<li><a href="" @click="change">体育</a></li>
 				<li><a href="" @click="change">财经</a></li>
 				<li><a href="" @click="change">娱乐</a></li>
@@ -81,21 +81,23 @@ function scrollTop() {
 				</div>
 			</div>
 		</div>
-	</div>
+	</header>
 	<!--/主导航-->
 	<!-- 回到顶部 -->
 	<div id="top" @click="scrollTop" v-if="topIf">
 		<i class="czs-rocket-l"></i>
 	</div>
+
 </template>
 
 <style scoped>
-.sina-header {
+header {
 	width: 100%;
 	height: 48px;
 	position: fixed;
 	backdrop-filter: blur(10px);
 	background-color: rgba(255, 255, 255, 0.5);
+	z-index: 999;
 }
 
 .sina-header-inner {
@@ -111,14 +113,15 @@ function scrollTop() {
 	position: relative;
 	margin: 0;
 	height: 100%;
-	overflow-x: scroll;
+	/* overflow-x: scroll; */
 }
 
 .nav-list li {
 	float: left;
 	list-style: none;
+	display: inline-block;
+    position: relative;
 }
-
 .nav-list li a {
 	margin: 0;
 	text-decoration: none;
@@ -126,12 +129,31 @@ function scrollTop() {
 	line-height: 48px;
 	padding: 0 15px;
 	color: #333;
+	transition: 0.5s;
 }
-
+.nav-list li a:after {
+    content: "";
+    width: 100%;
+	left: 0px;
+    bottom: 0px;
+    height: 3px;
+    background-color: #3f85ff;
+    transform-origin: 50% 0%;
+    transform: scale(0.01, 1);
+    visibility: hidden;
+    display: block;
+    position: absolute;
+    transition: all 0.5s ease;
+}
 .nav-list li a:hover {
-	color: #e96a0d
+	color: #e96a0d;
 }
-
+.nav-list li:hover a:after {
+	visibility: visible;
+    transform: scale(1, 1)
+	/* width: 100%;
+	transition: width 0.5s ease; */
+}
 /* 靠右 */
 .sina-client {
 	position: relative;
@@ -189,4 +211,5 @@ function scrollTop() {
 		transform: translateY(5%);
 	}
 }
+
 </style>

@@ -9,11 +9,14 @@ export default createRouter({
         },
         {
             path: '/home',
-            component: () => import('../components/home.vue')
+            component: () => import('../components/button.vue')
+            // meta: {
+            //     title: '首页'
+            // }
         },
         {
-            path: '/20230321',
-            component: () => import('../components/20230321.vue')
+            path: '/login',
+            component: () => import('../components/404.vue')
         },
         {
             path: '/:path',

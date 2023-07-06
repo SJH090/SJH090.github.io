@@ -3,8 +3,8 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/',
   plugins: [vue()],
+  base: '/',
   server: {
     https: false,
     port: 3000,
