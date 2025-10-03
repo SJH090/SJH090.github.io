@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>360还原脚本 - Web版</title>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .description {
+            background-color: #e8f4fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
+        
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .result {
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .result h2 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        .download-btn {
+            background-color: #27ae60;
+        }
+        
+        .download-btn:hover {
+            background-color: #219653;
+        }
+        
+        .error {
+            color: #e74c3c;
+            background-color: #fdf0ed;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .success {
+            color: #27ae60;
+            background-color: #eafaf1;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .step {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>360还原脚本 - Web版</h1>
+        
+        <div class="description">
+            <p>此工具用于解析特定格式的短信内容，将其转换为可读的故障记录表格。</p>
+            <p>输入格式示例：DA1,區線10,停总.DA2,區線11故,短总.DA3,断,事分.DA4,断,分</p>
+        </div>
+        
+        <div class="input-group">
+            <label for="smsContent">短信内容：</label>
+            <textarea id="smsContent" placeholder="请输入短信内容，例如：DA1,區線10,停总.DA2,區線11故,短总"></textarea>
+        </div>
+        
+        <div class="input-group">
+            <label for="district">区划：</label>
+            <input type="text" id="district" placeholder="请输入区划，例如：青浦">
+        </div>
+        
+        <div class="input-group">
+            <label for="feeder">馈线名：</label>
+            <input type="text" id="feeder" placeholder="请输入馈线名，例如：团44世纪">
+        </div>
+        
+        <button id="processBtn">处理数据</button>
+        
+        <div class="error" id="errorMsg"></div>
+        <div class="success" id="successMsg"></div>
+        
+        <div class="result" id="resultSection">
+            <h2>处理结果</h2>
+            
+            <div class="step">
+                <div class="step-title">步骤1：分割原始数据</div>
+                <div id="step1"></div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">步骤2：转换后的数据</div>
+                <div id="step2"></div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">步骤3：最终表格</div>
+                <table id="resultTable">
+                    <thead>
+                        <tr>
+                            <th>时间</th>
+                            <th>终端名称</th>
+                            <th>动作</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            
+            <button id="downloadBtn" class="download-btn">下载Excel文件</button>
+        </div>
+    </div>
+
+    <script>
+        // 时间映射字典
+        const timeDict = {
+            '0': '00', '1': '01', '2': '02', '3': '03', '4': '04', '5': '05', 
+            '6': '06', '7': '07', '8': '08', '9': '09', 'A': '10', 'B': '11', 
+            'C': '12', 'D': '13', 'E': '14', 'F': '15', 'G': '16', 'H': '17', 
+            'I': '18', 'J': '19', 'K': '20', 'L': '21', 'M': '22', 'N': '23', 
+            'O': '24', 'P': '25', 'Q': '26', 'R': '27', 'S': '28', 'T': '29', 
+            'U': '30', 'V': '31', 'W': '32', 'X': '33', 'Y': '34', 'Z': '35', 
+            'a': '36', 'b': '37', 'c': '38', 'd': '39', 'e': '40', 'f': '41', 
+            'g': '42', 'h': '43', 'i': '44', 'j': '45', 'k': '46', 'l': '47', 
+            'm': '48', 'n': '49', 'o': '50', 'p': '51', 'q': '52', 'r': '53', 
+            's': '54', 't': '55', 'u': '56', 'v': '57', 'w': '58', 'x': '59', 
+            'y': '60', 'z': '61'
+        };
+
+        // 处理按钮点击事件
+        document.getElementById('processBtn').addEventListener('click', function() {
+            const smsContent = document.getElementById('smsContent').value;
+            const district = document.getElementById('district').value;
+            const feeder = document.getElementById('feeder').value;
+            
+            // 验证输入
+            if (!smsContent || !district || !feeder) {
+                showError('请填写所有字段');
+                return;
+            }
+            
+            try {
+                // 处理数据
+                const result = processData(smsContent, district, feeder);
+                
+                // 显示结果
+                displayResults(result);
+                showSuccess('数据处理成功！');
+            } catch (error) {
+                showError('处理数据时出错: ' + error.message);
+            }
+        });
+        
+        // 下载按钮点击事件
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            const district = document.getElementById('district').value;
+            const feeder = document.getElementById('feeder').value;
+            const table = document.getElementById('resultTable');
+            
+            // 从表格获取数据
+            const data = [];
+            const rows = table.querySelectorAll('tr');
+            
+            rows.forEach(row => {
+                const rowData = [];
+                const cells = row.querySelectorAll('th, td');
+                cells.forEach(cell => {
+                    rowData.push(cell.textContent);
+                });
+                data.push(rowData);
+            });
+            
+            // 生成Excel文件
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+            
+            // 下载文件
+            XLSX.writeFile(wb, `${district}_${feeder}.xlsx`);
+        });
+        
+        // 处理数据函数
+        function processData(smsContent, district, feeder) {
+            // 步骤1：将字符串转换为二维数组
+            const subArraysStr = smsContent.split('.');
+            const array1 = subArraysStr.map(subStr => subStr.split(','));
+            
+            // 显示步骤1结果
+            document.getElementById('step1').textContent = JSON.stringify(array1, null, 2);
+            
+            // 步骤2：转换数据
+            const convertedArray = [];
+            for (const subArray of array1) {
+                // 转换时间
+                if (subArray[0] && subArray[0].length === 3) {
+                    subArray[0] = timeDict[subArray[0][0]] + ':' + 
+                                 timeDict[subArray[0][1]] + ':' + 
+                                 timeDict[subArray[0][2]];
+                }
+                
+                // 转换区划和馈线
+                if (subArray[1]) {
+                    subArray[1] = subArray[1].replace(/區/g, district).replace(/線/g, feeder);
+                }
+                
+                // 转换动作
+                if (subArray[2]) {
+                    if (subArray[2].includes("停总")) {
+                        subArray[2] = "停电信号总";
+                    } else if (subArray[2].includes("短总")) {
+                        subArray[2] = "短路故障总";
+                    } else if (subArray[2].includes("A短")) {
+                        subArray[2] = "A相短路";
+                    } else if (subArray[2].includes("B短")) {
+                        subArray[2] = "B相短路";
+                    } else if (subArray[2].includes("C短")) {
+                        subArray[2] = "C相短路";
+                    } else if (subArray[2].includes("A停")) {
+                        subArray[2] = "A相停电";
+                    } else if (subArray[2].includes("B停")) {
+                        subArray[2] = "B相停电";
+                    } else if (subArray[2].includes("C停")) {
+                        subArray[2] = "C相停电";
+                    }
+                    
+                    if (subArray[2].includes("事分")) {
+                        subArray[2] = "事故分闸";
+                    } else if (subArray[2] === "分") {
+                        subArray[2] = "分闸";
+                    }
+                }
+                
+                convertedArray.push([...subArray]);
+            }
+            
+            // 显示步骤2结果
+            document.getElementById('step2').textContent = JSON.stringify(convertedArray, null, 2);
+            
+            return convertedArray;
+        }
+        
+        // 显示结果函数
+        function displayResults(data) {
+            const tableBody = document.querySelector('#resultTable tbody');
+            tableBody.innerHTML = '';
+            
+            // 添加表头
+            const headerRow = document.createElement('tr');
+            headerRow.innerHTML = '<th>时间</th><th>终端名称</th><th>动作</th>';
+            
+            // 添加数据行
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                row.forEach(cell => {
+                    const td = document.createElement('td');
+                    td.textContent = cell;
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            });
+            
+            // 显示结果区域
+            document.getElementById('resultSection').style.display = 'block';
+        }
+        
+        // 显示错误消息
+        function showError(message) {
+            const errorMsg = document.getElementById('errorMsg');
+            errorMsg.textContent = message;
+            errorMsg.style.display = 'block';
+            document.getElementById('successMsg').style.display = 'none';
+        }
+        
+        // 显示成功消息
+        function showSuccess(message) {
+            const successMsg = document.getElementById('successMsg');
+            successMsg.textContent = message;
+            successMsg.style.display = 'block';
+            document.getElementById('errorMsg').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
